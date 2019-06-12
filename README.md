@@ -8,8 +8,8 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 
 ## Installation
 1. Create a provider hosted application
-2. Install Nuget Package for CSOM
-   [Nuget](https://www.nuget.org/packages/Microsoft.SharePointOnline.CSOM)
-   `Install-Package Microsoft.SharePointOnline.CSOM`
+2. Install Nuget Package for CSOM</br>
+   [Nuget](https://www.nuget.org/packages/Microsoft.SharePointOnline.CSOM)</br>
+   `Install-Package Microsoft.SharePointOnline.CSOM`</br>
 
    
