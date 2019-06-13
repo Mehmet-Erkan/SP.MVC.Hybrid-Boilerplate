@@ -5,6 +5,9 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 - SharePoint Online (June 2019)
 - Visual Studio 2017
 
+## References
+- [Tutorial José Quinto](https://blog.josequinto.com/2016/09/05/how-to-provide-sharepointcontext-to-a-web-api-action-apicontroller-in-a-sharepoint-provider-hosted-app/)
+
 
 ## Installation
 1. Create a provider hosted application
@@ -136,4 +139,32 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
      
      ```
      
+ 8. Call SharePoint from API Controller
+ Finally call from the API Controller a SharePoint Context based execution --> Get Username
  
+       ```CSharp
+ 
+         // GET: api/Data/5
+        [SharePointContextWebAPIFilter]
+        [System.Web.Http.HttpGet]
+        public string Get(int id)
+        {
+            var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext.Current);
+
+            Microsoft.SharePoint.Client.User spUser = null;
+            using (var clientContext = spContext.CreateUserClientContextForSPHost())
+            {
+                if (clientContext != null)
+                {
+                    spUser = clientContext.Web.CurrentUser;
+
+                    clientContext.Load(spUser, user => user.Title);
+
+                    clientContext.ExecuteQuery();
+                }
+            }
+            return "user: " + spUser.Title + " - " + id;
+        }
+
+ 
+      ```
