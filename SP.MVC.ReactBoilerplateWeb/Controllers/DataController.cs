@@ -11,15 +11,9 @@ namespace SP.MVC.ReactBoilerplateWeb.Controllers
     public class DataController : ApiController
     {
         // GET: api/Data
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET: api/Data/5
         [SharePointContextWebAPIFilter]
         [System.Web.Http.HttpGet]
-        public string Get(int id)
+        public string Get()
         {
             var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext.Current);
 
@@ -35,7 +29,13 @@ namespace SP.MVC.ReactBoilerplateWeb.Controllers
                     clientContext.ExecuteQuery();
                 }
             }
-            return "user: " + spUser.Title + " - " + id;
+            return "Executing User: " + spUser.Title;
+        }
+
+        // GET: api/Data/5
+        public string Get(int id)
+        {
+            return Convert.ToString(id);
         }
 
         // POST: api/Data
