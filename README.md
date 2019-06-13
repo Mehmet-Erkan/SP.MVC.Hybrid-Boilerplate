@@ -11,5 +11,129 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 2. Install Nuget Package for CSOM</br>
    [Nuget](https://www.nuget.org/packages/Microsoft.SharePointOnline.CSOM)</br>
    `Install-Package Microsoft.SharePointOnline.CSOM`</br>
-
    
+   > Update all Nuget Packages caused some styling errors. So better do not updgrade the other Nuget Packages
+
+3. Add API Controller (e.g Named Controllers\DataController.cs)
+4. Add Filter (Filters\SharePointContextWebAPIFilterAttribute.cs)
+
+   - ApiController class DOESN’T WORK with System.Web.Mvc.ActionFilterAttribute like the MVC Web does
+   - ApiController WORKs with System.Web.Http.Filters.ActionFilterAttribute
+   
+   ```CSharp  
+   using System;
+   using System.Net;
+   using System.Net.Http;
+   using System.Web;
+   using ActionFilterAttribute = System.Web.Http.Filters.ActionFilterAttribute;
+
+   namespace SP.MVC.ReactBoilerplateWeb
+   {
+       public class SharePointContextWebAPIFilterAttribute : ActionFilterAttribute
+       {
+           public override void OnActionExecuting(System.Web.Http.Controllers.HttpActionContext actionContext)
+           {
+               if (actionContext == null)
+               {
+                   throw new ArgumentNullException("actionContext");
+               }
+
+               Uri redirectUrl;
+               switch (SharePointContextProvider.CheckRedirectionStatus(HttpContext.Current, out redirectUrl))
+               {
+                   case RedirectionStatus.Ok:
+                       return;
+                   case RedirectionStatus.ShouldRedirect:
+                       var response = actionContext.Request.CreateResponse(System.Net.HttpStatusCode.Redirect);
+                       response.Headers.Add("Location", redirectUrl.AbsoluteUri);
+                       actionContext.Response = response;
+                       break;
+                   case RedirectionStatus.CanNotRedirect:
+                       actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.MethodNotAllowed, "Context couldn't be created: access denied");
+                       break;
+               }
+           }
+       }
+   }
+   ```
+
+
+5. Decorate class with filter attribute in the Data Controller
+
+   ```CSharp        
+     [SharePointContextWebAPIFilter]
+     // GET: api/Data/5
+     public string Get(int id)
+     { 
+         return "value";
+     } 
+   ```
+   
+ 6. Modify Global.asax
+ 
+    ```CSharp
+      using System.Web.Http;
+      using System.Web.Mvc;
+      using System.Web.Optimization;
+      using System.Web.Routing;
+
+      namespace SP.MVC.ReactBoilerplateWeb
+      {
+          public class MvcApplication : System.Web.HttpApplication
+          {
+              protected void Application_Start()
+              {
+                  GlobalConfiguration.Configure(WebApiConfig.Register);
+                  AreaRegistration.RegisterAllAreas();
+                  FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+                  RouteConfig.RegisterRoutes(RouteTable.Routes);
+                  BundleConfig.RegisterBundles(BundleTable.Bundles);
+              }
+          }
+      } 
+    ```
+
+ 7. Change WebApiConfig.cs to enable Session State in Web API
+ 
+    Web API (ApiController) is stateless component, which means that doesn’t have Session State.
+   
+     ```CSharp
+     
+      using System.Web;
+      using System.Web.Http;
+      using System.Web.Http.WebHost;
+      using System.Web.Routing;
+      using System.Web.SessionState;
+
+      namespace MyWebApi
+      {
+          public static class WebApiConfig
+          {
+              public static void Register(HttpConfiguration config)
+              {
+                  RouteTable.Routes.MapHttpRoute(
+                      name: "DefaultApi",
+                      routeTemplate: "api/{controller}/{id}",
+                      defaults: new { id = RouteParameter.Optional }
+                  ).RouteHandler = new SessionRouteHandler();
+              }
+
+              public class SessionRouteHandler : IRouteHandler
+              {
+                  IHttpHandler IRouteHandler.GetHttpHandler(RequestContext requestContext)
+                  {
+                      return new SessionControllerHandler(requestContext.RouteData);
+                  }
+              }
+              public class SessionControllerHandler : HttpControllerHandler, IRequiresSessionState
+              {
+                  public SessionControllerHandler(RouteData routeData)
+                      : base(routeData)
+                  { }
+              }
+          }
+      }
+     
+     ```
+     
+ 
