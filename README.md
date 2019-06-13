@@ -7,6 +7,7 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 
 ## References
 - [Tutorial José Quinto](https://blog.josequinto.com/2016/09/05/how-to-provide-sharepointcontext-to-a-web-api-action-apicontroller-in-a-sharepoint-provider-hosted-app/)
+- [Give your provider-hosted add-in the SharePoint look-and-feel](https://docs.microsoft.com/en-us/sharepoint/dev/sp-add-ins/give-your-provider-hosted-add-in-the-sharepoint-look-and-feel)
 
 
 ## Installation
