@@ -11,6 +11,9 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 2. Install Nuget Package for CSOM</br>
    [Nuget](https://www.nuget.org/packages/Microsoft.SharePointOnline.CSOM)</br>
    `Install-Package Microsoft.SharePointOnline.CSOM`</br>
+   
+   > Update all Nuget Packages caused some styling errors. So better do not updgrade the other Nuget Packages
+
 3. Add API Controller (e.g Named Controllers\DataController.cs)
 4. Add Filter (Filters\SharePointContextWebAPIFilterAttribute.cs)
 
