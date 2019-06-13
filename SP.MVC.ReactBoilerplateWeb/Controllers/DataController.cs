@@ -21,7 +21,6 @@ namespace SP.MVC.ReactBoilerplateWeb.Controllers
         [System.Web.Http.HttpGet]
         public string Get(int id)
         {
-            //var spContext = SharePointApiControllerContext.Current.GetSharePointContext(ControllerContext);
             var spContext = SharePointContextProvider.Current.GetSharePointContext(HttpContext.Current);
 
             Microsoft.SharePoint.Client.User spUser = null;
