@@ -17,6 +17,9 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 3. Add API Controller (e.g Named Controllers\DataController.cs)
 4. Add Filter (Filters\SharePointContextWebAPIFilterAttribute.cs)
 
+   - ApiController class DOESN’T WORK with System.Web.Mvc.ActionFilterAttribute like the MVC Web does
+   - ApiController WORKs with System.Web.Http.Filters.ActionFilterAttribute
+   
    ```CSharp  
    using System;
    using System.Net;
@@ -92,6 +95,8 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 
  7. Change WebApiConfig.cs to enable Session State in Web API
  
+    Web API (ApiController) is stateless component, which means that doesn’t have Session State.
+   
      ```CSharp
      
       using System.Web;
