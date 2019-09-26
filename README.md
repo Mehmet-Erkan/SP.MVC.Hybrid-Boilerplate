@@ -10,7 +10,7 @@ Boilerplate for a provider hosted SharePoint application with React, Typescript,
 - [Give your provider-hosted add-in the SharePoint look-and-feel](https://docs.microsoft.com/en-us/sharepoint/dev/sp-add-ins/give-your-provider-hosted-add-in-the-sharepoint-look-and-feel)
 
 
-## Changes API Controller Integration
+## Change Steps API Controller Integration
 1. Create a provider hosted application
 2. Install Nuget Package for CSOM</br>
    [Nuget](https://www.nuget.org/packages/Microsoft.SharePointOnline.CSOM)</br>
