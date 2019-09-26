@@ -1,5 +1,5 @@
 # SP.MVC.ReactBoilerplate
-Boilerplate for a provider hosted SharePoint application with React, Typescript, API Controller and PnP. The difficulty is to force the API Controller to execute code against the hostweb within the user context. 
+Boilerplate for a SharePoint provider hosted application with API AND Web- Controller. The difficulty is to force the API Controller to execute code against the hostweb within the user context. The API controller has been extended to consume the session token from the web controller to access the app web!
 
 # Test Setup
 - SharePoint Online (June 2019)
