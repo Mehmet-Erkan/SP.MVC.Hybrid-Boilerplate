@@ -1,4 +1,4 @@
-# SP.MVC.ReactBoilerplate
+# SP.MVC.HybridBoilerplate
 Boilerplate for a SharePoint provider hosted application with API AND Web- Controller. The difficulty is to force the API Controller to execute code against the hostweb within the user context. The API controller has been extended to consume the session token from the web controller to access the app web!
 
 # Test Setup
